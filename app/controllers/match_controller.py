@@ -6,7 +6,7 @@ from app.models.response import Response
 class MatchController:
     ms = MatchService()
 
-    def get_match_score(self, query):
+    def get_match_score(self, query, body):
         dct = dict(parse_qsl(query))
         muuid = dct.get("uuid")
         if not muuid:
@@ -16,7 +16,7 @@ class MatchController:
             return Response(404, f"Not Found: no match with uuid={muuid}")
         return Response(200, "OK: match found", match_dto.to_dict())
 
-    def get_matches(self, query):
+    def get_matches(self, query, body):
         dct = dict(parse_qsl(query))
         try:
             page = int(dct.get("page"))
@@ -31,8 +31,8 @@ class MatchController:
         matches_dto = [match_dto.to_dict() for match_dto in matches_dto_list]
         return Response(200, "OK: all matches found", matches_dto)
 
-    def post_new_match(self, query, data):
-        dct = dict(parse_qsl(data))
+    def post_new_match(self, query, body):
+        dct = dict(parse_qsl(body))
         player1 = dct.get("player1")
         player2 = dct.get("player2")
         if not player1 or not player2:
@@ -40,12 +40,12 @@ class MatchController:
         match_dto = self.ms.create_new_match(player1, player2)
         return Response(201, "OK: match created", match_dto.to_dict())
 
-    def post_match_score(self, query, data):
+    def post_match_score(self, query, body):
         dct = dict(parse_qsl(query))
         muuid = dct.get("uuid")
         if not muuid:
             return Response(400, "Bad Request: uuid not found in query")
-        dct = dict(parse_qsl(data))
+        dct = dict(parse_qsl(body))
         point_winner = dct.get("point_winner")
         if not point_winner:
             return Response(400, "Bad Request: missing point_winner key in post body")
