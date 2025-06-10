@@ -2,3 +2,4 @@ alembic==1.15.2
 mysqlclient==2.2.7
 SQLAlchemy==2.0.40
 uWSGI==2.0.29
+jinja2==3.1.6
