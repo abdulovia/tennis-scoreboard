@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    {% block head %}
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Tennis Scoreboard</title>
+    {% endblock %}
+</head>
+
+<body>
+
+    <div id="header">
+        <nav class="menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/matches">Matches</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="content">{% block content %}{% endblock %}</div>
+
+    <div id="footer">
+        <p>Tennis Scoreboard, project from <a
+                href="https://zhukovsd.github.io/python-backend-learning-course">zhukovsd/python-backend-learning-course</a>
+            roadmap
+        </p>
+    </div>
+
+</body>
+
+</html>
