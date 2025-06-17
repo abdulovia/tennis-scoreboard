@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="project">
+    {% if match.winner %}
+    <h1>Match Ended</h1>
+    <h2>Winner: {{ match.winner }}</h2>
+    {% else %}
+    <h1>Match In Progress</h1>
+    {% endif %}
+</div>
+<div id="project">
+    <table id="match-table">
+        <tr>
+            <th>Player</th>
+            <th>Total Sets</th>
+            <th>Games</th>
+            <th>Points</th>
+            {% if not match.winner %}<th></th>{% endif %}
+        </tr>
+        <tr>
+            <td>{{ match.player1 }}</td>
+            <td>{{ match.score.total.player1 }}</td>
+            <td>{{ match.score.sets[-1].player1 }}</td>
+            <td>{{ match.score.game.player1 }}</td>
+            {% if not match.winner %}<td>
+                <form method="post" action="/match-score?uuid={{ match.uuid }}">
+                    <input type="hidden" name="point_winner" value="{{ match.player1 }}">
+                    <input type="submit" class="button is-link" value="wins point">
+                </form>
+            </td>{% endif %}
+        </tr>
+        <tr>
+            <td>{{ match.player2 }}</td>
+            <td>{{ match.score.total.player2 }}</td>
+            <td>{{ match.score.sets[-1].player2 }}</td>
+            <td>{{ match.score.game.player2 }}</td>
+            {% if not match.winner %}<td>
+                <form method="post" action="/match-score?uuid={{ match.uuid }}">
+                    <input type="hidden" name="point_winner" value="{{ match.player2 }}">
+                    <input type="submit" class="button is-link" value="wins point">
+                </form>
+            </td>{% endif %}
+        </tr>
+    </table>
+</div>
+{% endblock %}
