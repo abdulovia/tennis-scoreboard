@@ -1,4 +1,5 @@
 from dataclasses import asdict, dataclass
+import json
 from app.models.score import Score
 
 
@@ -12,3 +13,18 @@ class MatchDTO:
 
     def to_dict(self):
         return asdict(self)
+
+    @classmethod
+    def from_str(cls, match_str):
+        dct = json.loads(match_str)
+        return cls.from_dict(dct)
+
+    @classmethod
+    def from_dict(cls, dct):
+        return cls(
+            dct.get("uuid"),
+            dct.get("player1"),
+            dct.get("player2"),
+            dct.get("winner"),
+            Score.from_dict(dct.get("score")),
+        )
