@@ -54,8 +54,16 @@ class Score:
         return json.dumps(asdict(self))
 
     @classmethod
-    def from_str(cls, score_str):
+    def from_str(cls, score_str: str):
         dct = json.loads(score_str)
+        return cls(
+            Total.from_dct(dct.get("total")),
+            [Set.from_dct(set_dct) for set_dct in dct.get("sets")],
+            Game.from_dct(dct.get("game")),
+        )
+
+    @classmethod
+    def from_dict(cls, dct: dict):
         return cls(
             Total.from_dct(dct.get("total")),
             [Set.from_dct(set_dct) for set_dct in dct.get("sets")],
