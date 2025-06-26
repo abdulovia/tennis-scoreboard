@@ -1,23 +1,27 @@
-from app.controllers.match_controller import MatchController
-from app.models.response import Response
+from app.controllers.match_api_controller import MatchApiController
+from app.controllers.match_view_controller import MatchViewController
 
 
 class Router:
-    mc = MatchController()
+    api = MatchApiController()
+    view = MatchViewController()
     routes = {
         "GET": {
-            "/match-score": mc.get_match_score,
-            "/matches": mc.get_matches,
+            "/": view.get_index_page,
+            "/new-match": view.get_new_match_page,
+            "/match-score": view.get_match_score_page,
+            "/matches": view.get_matches_page,
+            "/static/css/style.css": view.get_style_css,
+            "/api/match-score": api.get_match_score,
+            "/api/matches": api.get_matches,
         },
         "POST": {
-            "/new-match": mc.post_new_match,
-            "/match-score": mc.post_match_score,
+            "/new-match": view.post_new_match,
+            "/match-score": view.post_match_score,
+            "/api/new-match": api.post_new_match,
+            "/api/match-score": api.post_match_score,
         },
     }
 
     def get_controller_method(self, http_method, path):
-        return self.routes.get(http_method, {}).get(path, route_not_found)
-
-
-def route_not_found(*args):
-    return Response(404, "API Route Not Found")
+        return self.routes.get(http_method, {}).get(path, self.view.get_not_found_page)
