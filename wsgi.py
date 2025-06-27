@@ -17,15 +17,15 @@ def application(environ, start_response):
     controller_method = router.get_controller_method(request_method, path_info)
     response = controller_method(query_string, body)
 
-    resp_body = response.to_str().encode()
-    content_length = str(len(resp_body))
+    response_body = response.body.encode()
+    content_length = str(len(response_body))
 
     start_response(
         response.get_status(),
         [
             ("Content-Length", content_length),
-            ("Content-Type", "application/json"),
+            response.header,
             ("Access-Control-Allow-Origin", "*"),
         ],
     )
-    return [resp_body]
+    return [response_body]
