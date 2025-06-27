@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, update
+from sqlalchemy import select
 from app.database.database import engine
 from app.models.models import Match
 
-PAGE_SIZE = 10
+PAGE_SIZE = 3
 
 
 class MatchDAO:
